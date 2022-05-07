@@ -1,9 +1,7 @@
-# MongoDB Hackathon Workshop
+# MongoDB  Workshop
 
 MongoDB is a popular, easy-to-use database. It is a NoSQL database which stores JSON-like documents. This workshop will cover the following points:
 
-- Why databases are important
-- What a SQL database is
 - What MongoDB is
 - How to install MongoDB
 - How to create, read, update, and delete data in MongoDB
@@ -17,44 +15,6 @@ MongoDB is a NoSQL database which stores JSON-like documents. What do each of th
 - Database
 - NoSQL
 - JSON-like documents
-
-
-### What is a database and why do we need one?
-
-When building applications you're going to need to be able to store data for later use. For example, Twitter needs to store all its tweets, Facebook needs to store information about its users, Yelp needs to store data about restaurants.
-
-Databases are designed to provide **efficient and easy-to-use storage and access to large amounts of persistent data**.
-
-- **Persistent**: You can't just store all your data in memory.
-	- The amount of data an application needs to store is usually orders of magnitude larger than the memory available to a system.
-	- You want data to persist whenever your application stops or restarts. You don't want to lose all your data whenever your server crashes.
-	- Multiple systems might want to have access to the data. of magnitude larger than the memory available to a system.
-- **Efficient Storage & Access**: You could just write all this data to your disk using a text file. But there are a lot of problems with this:
-	- Storage would be inefficient. Databases can compress data so it takes up less disk space. (Although some do just use flat files.)
-	- Data retrieval would be inefficient. If you want to find the data for a certain user, you might have to read every file on disk to find them. Databases can index your data and use clever caching mechanisms to make sure you can access data quickly.
-	- You'd have to write your own code to do all these things. Databases provide you with very powerful APIs to access your data. You can leverage the work of thousands of people who built a database so you can just focus on coding your application.
-
-This is only a taste of what makes databases useful. Databases also solve a lot of difficult technical problems around data consistency, distribution, load balancing, backups, and more.
-
-
-### How do databases fit into your application?
-
-Here are some tips on fitting databases into your applications.
-
-#### Three-tier application architecture
-
-Your applications should generally be structured in three tiers:
-
-1. **Client** - This is the presentation layer of your application, the way a user views it. It can be a website, a mobile app, a game, or other client.
-2. **API** - The client talks to a web server. This web server hosts a REST API.
-3. **Database** - The API talks to the database and reads or writes data as it is needed.
-
-The key point here is that the client (i.e. your website or app) never talks directly to the database. Since talking to the database usually requires full read/write access, this would be insecure. It's better to go through a REST API.
-
-#### Store data, not files
-
-Databases are good at storing things like text, numbers, dates... general information. Although it's sometimes possible to store large files such as images in a database, you usually don't want to. It can be awkward and doesn't give you much benefit. It's better to store files on disk (or on a service such as AWS S3) and just store metadata about a file (such as its name, owner, and link) in the database.
-
 
 ### What does NoSQL mean?
 
@@ -117,8 +77,6 @@ Output:
 |   Charmander |          Ash |   Pallet Town |
 |       Staryu |        Misty | Cerulean City |
 |      Starmie |        Misty | Cerulean City |
-
-You can play with this data using [this SQL Fiddle](http://sqlfiddle.com/#!9/5ab84c/14).
 
 
 #### The problem with SQL: Object Relational Mapping
