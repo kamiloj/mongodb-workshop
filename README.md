@@ -622,7 +622,8 @@ To delete documents, you can use `deleteOne` or `deleteMany`. For example:
 Indexes are vital to understand if you want your database queries to be fast. If you search for documents using an unindexed field such as `name`, MongoDB will have to go through every single document on the disk and check the value of `name` to return the results.
 
 ```
-> db.pokemon.find({ name: "Mew" }).explain({ executionStats: 1 })
+
+> db.pokemon.find({ name: "Mew" }).explain("executionStats")
 ```
 
 The `explain` command will give you information about how a query is executed. We see in the execution stats that the `totalDocsExamined` were 150! Every document in the collection! If you have thousands or millions of records, this will get unbearably slow!
@@ -644,7 +645,7 @@ Indexing is a deep and nuanced subject. If you start to run production apps, you
 Now, running `explain` on the previous command:
 
 ```
-> db.pokemon.find({ name: "Mew" }).explain({ executionStats: 1 })
+> db.pokemon.find({ name: "Mew" }).explain("executionStats")
 ```
 
 We can see that the `totalDocsExamined` is 1. MongoDB was able to immediately pick out the answer to our query. This is much more efficient.
