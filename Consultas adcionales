@@ -1,0 +1,11 @@
+Consultas
+
+1. Todos los pokemons que sean de tipo agua menores a 1 metro de altura, y los de tipo tierra que sean mas altos de 0.50 metros
+Pasarlo a programacion imperativa 
+
+2. Como funciona un indice en una base de datos documental, como afecta el peso, y el performance de escritura y lectura.
+
+3. Hacer una consulta de pokemons tipo Fuego, que pesen mas de 60 kg, explicar el plan de ejecucion.
+Crear un indice por tipo y explicar nuevamente el plan de ejecucion
+
+Crear una cuenta de AWS para el proximo lab
