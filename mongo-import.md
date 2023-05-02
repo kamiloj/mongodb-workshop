@@ -6,4 +6,6 @@ Descargar el archivo de pokedex
 
 Ejecutar el comando de importacion
 
+```
 mongoimport --host cluster0-primarydb:27017 --db pokedex -c pokemon --type json --file pokedex.json --jsonArray --authenticationDatabase admin --ssl --username username
+```
