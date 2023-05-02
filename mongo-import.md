@@ -1,8 +1,7 @@
-Cargar la base de datos de pokemons
-Descargar mongo tools
-https://www.mongodb.com/try/download/database-tools
+## Cargar la base de datos de pokemons
+Descargar [Mongo DB Tools](https://www.mongodb.com/try/download/database-tools)
 
-Descargar el archivo de pokedex
+Descargar el [archivo de pokedex](pokedex.json) 
 
 Ejecutar el comando de importacion
 
