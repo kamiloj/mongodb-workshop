@@ -3,16 +3,21 @@ Hoy tendremos la oportunidad de explorar la base de datos MongoDB en nube.
 
 para ello seguiremos las guias como se presentan aqui
 
+
+
 1. Crear una base de datos de capa gratuita
 [Link](create-mongo-db.md)
 
-2. Cargar la tabla documental
+2. El profesor mostrara la introduccion de comandos en Mongo
+[Link](command-intro.md)
+
+3. Cargar la tabla documental
 [Link](mongo-import.md)
 
-3. Workshop asistido
+4. Workshop asistido
 [Link](workshop.md)
 
-4. Consultas adicionales
+5. Consultas adicionales
 [Link](consultas-adicionales.md)
 
 
