@@ -204,7 +204,7 @@ Find all Pokemon that have only one type (checks that the `type` array has only 
 Find all Pokemon that are in their final evolution state (checks for the documents that don't have a `next_evolution` property):
 
 ```
-> db.pokemon.find({ type: { $all: ["water"] } }).pretty()
+> db.pokemon.find({ type: { $all: ["Water"] } }).pretty()
 ```
 
 Find all the Pokemon that are both water type and less than 1.00 m tall:
