@@ -4,16 +4,16 @@ Hoy tendremos la oportunidad de explorar la base de datos MongoDB en nube.
 para ello seguiremos las guias como se presentan aqui
 
 1. Crear una base de datos de capa gratuita
-https://github.com/kamiloj/mongodb-workshop/blob/master/Create%20MongoDB%20Free
+[Link](create-mongo-db.md)
 
 2. Cargar la tabla documental
-https://github.com/kamiloj/mongodb-workshop/blob/master/Cargar%20DB
+[Link](mongo-import.md)
 
 3. Workshop asistido
-https://github.com/kamiloj/mongodb-workshop/blob/master/workshop
+[Link](mongo-import.md)
 
 4. Consultas adicionales
-https://github.com/kamiloj/mongodb-workshop/blob/master/Consultas%20adcionales
+[Link](mongo-import.md)
 
 
 
