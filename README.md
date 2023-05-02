@@ -10,7 +10,7 @@ para ello seguiremos las guias como se presentan aqui
 [Link](mongo-import.md)
 
 3. Workshop asistido
-[Link](mongo-import.md)
+[Link](workshop.md)
 
 4. Consultas adicionales
 [Link](mongo-import.md)
