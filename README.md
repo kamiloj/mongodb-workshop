@@ -13,7 +13,7 @@ para ello seguiremos las guias como se presentan aqui
 [Link](workshop.md)
 
 4. Consultas adicionales
-[Link](mongo-import.md)
+[Link](consultas-adicionales.md)
 
 
 
