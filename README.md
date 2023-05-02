@@ -5,20 +5,15 @@ para ello seguiremos las guias como se presentan aqui
 
 
 
-1. Crear una base de datos de capa gratuita
-[Link](create-mongo-db.md)
+1. [Crear una base de datos de capa gratuita](create-mongo-db.md)
 
-2. El profesor mostrara la introduccion de comandos en Mongo
-[Link](command-intro.md)
+2. [El profesor mostrara la introduccion de comandos en Mongo](command-intro.md)
 
-3. Cargar la tabla documental
-[Link](mongo-import.md)
+3. [Cargar la tabla documental](mongo-import.md)
 
-4. Workshop asistido
-[Link](workshop.md)
+4. [Workshop](workshop.md)
 
-5. Consultas adicionales
-[Link](consultas-adicionales.md)
+5. [Consultas adicionales](consultas-adicionales.md)
 
 
 
