@@ -1,4 +1,4 @@
-#Introduccion
+# MongoDB  Workshop
 Hoy tendremos la oportunidad de explorar la base de datos MongoDB en nube.
 
 para ello seguiremos las guias como se presentan aqui
@@ -18,7 +18,8 @@ https://github.com/kamiloj/mongodb-workshop/blob/master/Consultas%20adcionales
 
 
 
-# MongoDB  Workshop
+
+#  Intro
 
 MongoDB is a popular, easy-to-use database. It is a NoSQL database which stores JSON-like documents. This workshop will cover the following points:
 
