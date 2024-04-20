@@ -9,4 +9,4 @@ Escriba y ejecute las siguientes queries.
 Como funciona un indice en una base de datos documental, como afecta el peso, y el performance de escritura y lectura.
 
 
-**Para la proxima sesion no olviden crear una cuenta de AWS para el lab**
+Para la proxima sesion no olviden crear una cuenta de AWS para el lab
