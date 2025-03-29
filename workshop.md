@@ -91,9 +91,9 @@ Find all the Pokemon that are both water type and less than 1.00 m tall:
 You can count the number of documents that match a _filter document_ by using the `count` method on a collection:
 
 ```
-> db.pokemon.count()
+> db.pokemon.countDocuments()
 151
-> db.pokemon.count({ height: "1.70 m" })
+> db.pokemon.countDocuments({ height: "1.70 m" })
 6
 ```
 
