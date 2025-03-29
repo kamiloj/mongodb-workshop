@@ -97,10 +97,10 @@ You can count the number of documents that match a _filter document_ by using th
 6
 ```
 
-Or, instead of appending `.pretty()` to `find` queries, you can append `.count()`:
+Or, instead of appending `.pretty()` to `find` queries, you can append another functions like`.toArray()`:
 
 ```
-> db.pokemon.find({ height: "1.70 m" }).count()
+> db.pokemon.find({ height: "1.70 m" }).toArray().length
 6
 ```
 
