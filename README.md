@@ -1,16 +1,32 @@
-# MongoDB  Workshop
-Hoy tendremos la oportunidad de explorar la base de datos MongoDB en nube.
+# MongoDB Workshop  
+![Status](https://img.shields.io/badge/Workshop-Active-brightgreen)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-%2347A248?logo=mongodb&logoColor=white)
 
-Si no conoces esta base de datos, puedes ver una [introduccion de MongoDB](intro-mongo.md)
+> Aprende MongoDB desde cero mediante práctica guiada en la nube.
 
-Luego seguiremos las guias como se presentan aqui
+---
 
-1. [Crear una base de datos de capa gratuita](create-mongo-db.md)
+## 🧭 Navegación Rápida
 
-2. [El profesor mostrara la introduccion de comandos en Mongo](command-intro.md)
+### 📘 Fundamentos
+- [Introducción a MongoDB](intro-mongo.md)
+- [Crear una base de datos gratuita](create-mongo-db.md)
 
-3. [Cargar la tabla documental](mongo-import.md)
+### 🧰 Práctica Guiada
+- [Comandos básicos en MongoDB](command-intro.md)
+- [Importar documentos](mongo-import.md)
 
-4. [Workshop](workshop.md)
+### 🧪 Laboratorio
+- [Workshop práctico](workshop.md)
 
+---
 
+## 🎯 Objetivos
+- Comprender bases de datos documentales  
+- Aprender a modelar colecciones  
+- Realizar queries, filtros y agregaciones  
+- Entender buenas prácticas esenciales  
+
+---
+
+## 🗂 Estructura del contenido
