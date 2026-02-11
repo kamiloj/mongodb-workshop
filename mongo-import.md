@@ -1,30 +1,40 @@
-## Cargar la base de datos de pokemons
-Descargar [Mongo DB Tools](https://www.mongodb.com/try/download/database-tools)
+# 🗄️ Importar Base de Datos en MongoDB Atlas
 
-Descargar el [archivo de pokedex](pokedex.json) 
+Este documento explica cómo crear una base de datos y **importar documentos JSON** directamente en MongoDB Atlas usando el **Data Explorer**.
 
-Ejecutar el comando de importacion
+---
 
-```
-mongoimport --host cluster0-primarydb:27017 --db pokedex -c pokemon --type json --file pokedex.json --jsonArray --authenticationDatabase admin --ssl --username username
-```
+## 1️⃣ Abrir Data Explorer
 
+1. Ve a tu cluster en **MongoDB Atlas**.
+2. Haz clic en **Connect** → **Data Explorer**.
+3. Se abrirá el **Data Explorer**, donde podrás explorar y modificar tus bases de datos.
 
-## UI
-1. Abrir Data Explorer
-Connect
-Data Explorer
-Open Data Explorer
+> 💡 Tip: Data Explorer permite crear colecciones y documentos sin usar la terminal.
 
-2. Crear la base de datos
-Create Database
-DB Name: pokedex
-Collection Name: pokemon
-Aditional: Select
+---
 
-3. Importar
-Insert Document
-Select {}
-Sobreescribir con JSON
+## 2️⃣ Crear una base de datos
 
+1. Haz clic en **Create Database**.
+2. Completa los campos:
 
+| Campo                 | Valor Ejemplo       |
+|-----------------------|------------------|
+| **DB Name**           | `pokedex`        |
+| **Collection Name**   | `pokemon`        |
+| **Additional Settings** | Opcional         |
+
+3. Haz clic en **Create Database** ✅
+
+> ⚠️ Nota: Una vez creada la base de datos, no se puede cambiar el nombre del DB ni de la colección.
+
+---
+
+## 3️⃣ Insertar o importar documentos
+
+1. Dentro de la colección `pokemon`, haz clic en **Insert Document**.
+2. Selecciona **Insert JSON** o **Overwrite with JSON**.
+3. Pega tu contenido JSON dentro del editor:
+
+[Archivo JSON](pokedex.json)
