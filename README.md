@@ -13,7 +13,4 @@ Luego seguiremos las guias como se presentan aqui
 
 4. [Workshop](workshop.md)
 
-5. [Consultas adicionales](consultas-adicionales.md)
-
-
 
