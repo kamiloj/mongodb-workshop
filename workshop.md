@@ -3,28 +3,12 @@
 ## 📋 Información del Workshop
 
 **Curso:** Procesamiento de Datos Distribuidos  
-**Clase:** Clase 3 - Modelos de Datos, Lenguajes de Consulta y Procesamiento  
-**Tema:** MongoDB y Document Stores  
-**Duración estimada:** 2-3 horas  
-**Nivel:** Intermedio
+**Clase:** Modelos de Datos, Lenguajes de Consulta y Procesamiento  
+**Duración estimada:** 2 horas  
 
 ---
 
-## 🎯 Objetivos de Aprendizaje
-
-Al finalizar este workshop, habrás aplicado los siguientes conceptos vistos en la Clase 3:
-
-1. **Document Stores**: Comprender la estructura flexible de documentos JSON/BSON
-2. **Embedding vs Referencing**: Identificar patrones de modelado de datos en NoSQL
-3. **Operadores de consulta**: Dominar filtros, proyecciones y operadores especiales
-4. **Índices y rendimiento**: Relacionar con B-Trees y entender trade-offs
-5. **Aggregation Framework**: Aplicar transformaciones complejas de datos
-6. **CRUD Operations**: Crear, leer, actualizar y eliminar documentos
-7. **Conexión desde aplicaciones**: Usar drivers oficiales
-
----
-
-## 📚 Conexión con la Clase 3
+## 📚 Conexión con la Clase
 
 Este workshop pone en práctica los conceptos teóricos que vimos en clase:
 
@@ -545,7 +529,7 @@ db.pokemon.find({ type: { $size: 1 } }).pretty()
 - Muchos Pokemon tienen solo un tipo (Fire, Water, Bug, Normal, etc.)
 - Pokemon como Bulbasaur (Grass/Poison) o Charizard (Fire/Flying) tienen 2 tipos y NO aparecen en este resultado
 
-**🔗 Concepto de Clase 3:**  
+**🔗 Concepto de Clase:**  
 En un **modelo relacional**, necesitarías una tabla `pokemon_types` con relación muchos-a-muchos. En **Document Stores**, simplemente guardamos un array de tipos directamente en el documento.
 
 ---
@@ -899,84 +883,9 @@ Esto encuentra Pokemon de fuego o agua que sean relativamente comunes en el jueg
 
 ---
 
-## 🔢 Parte 7: Conteo de Documentos
+## 📋 Parte 7: Proyección (Selección de Campos)
 
-### 7.1 Contar Todos los Documentos
-
-Contamos el total de Pokemon en la colección:
-
-```javascript
-db.pokemon.countDocuments()
-```
-
-**Salida esperada:**
-```
-151
-```
-
-**📖 Explicación:**  
-- `countDocuments()` cuenta todos los documentos en la colección
-- Tenemos los 151 Pokemon originales de la primera generación
-
----
-
-### 7.2 Contar con Filtro
-
-Contamos Pokemon de una altura específica:
-
-```javascript
-db.pokemon.countDocuments({ height: "1.70 m" })
-```
-
-**Salida esperada:**
-```
-6
-```
-
-Contamos Pokemon tipo Fire:
-
-```javascript
-db.pokemon.countDocuments({ type: "Fire" })
-```
-
-**Salida esperada:**
-```
-12
-```
-
-**📖 Explicación:**  
-- Podemos pasar un filtro a `countDocuments()` para contar solo los documentos que coincidan
-- Hay 6 Pokemon de 1.70 m y 12 Pokemon de tipo Fire
-
----
-
-### 7.3 Método Alternativo con Cursores
-
-También podemos usar cursores para contar:
-
-```javascript
-db.pokemon.find({ height: "1.70 m" }).toArray().length
-```
-
-**Salida esperada:**
-```
-6
-```
-
-**📖 Explicación:**  
-- `.toArray()` convierte el cursor completo en un array JavaScript
-- `.length` obtiene el tamaño del array
-- **⚠️ Precaución**: Este método NO es eficiente para grandes volúmenes de datos porque carga todos los documentos en memoria
-- **Mejor práctica**: Usa `countDocuments()` para solo contar
-
-**🔗 Concepto de Clase 3:**  
-Esto ilustra un **trade-off de rendimiento**: `countDocuments()` es O(1) o O(n) optimizado, mientras que `.toArray().length` es O(n) con overhead de memoria.
-
----
-
-## 📋 Parte 8: Proyección (Selección de Campos)
-
-### 8.1 Proyección Básica
+### 7.1 Proyección Básica
 
 Si no queremos todos los campos, usamos un **documento de proyección** como segundo argumento:
 
@@ -1035,7 +944,7 @@ La proyección es crítica en **sistemas distribuidos** para:
 
 ---
 
-### 8.2 Excluir el Campo _id
+### 7.2 Excluir el Campo _id
 
 El campo `_id` siempre se muestra por defecto. Para ocultarlo:
 
@@ -1061,7 +970,7 @@ Ahora la salida es mucho más limpia, mostrando solo los campos que pedimos expl
 
 ---
 
-### 8.3 Proyección por Exclusión
+### 7.3 Proyección por Exclusión
 
 También podemos excluir campos específicos en lugar de incluirlos:
 
@@ -1105,16 +1014,15 @@ db.pokemon.find(
 
 ---
 
-## ✏️ Parte 9: Actualización de Documentos
+## ✏️ Parte 8: Actualización de Documentos
 
-### 9.1 Actualizar un Solo Documento
+### 8.1 Actualizar un Solo Documento
 
 Primero, veamos el documento actual de Psyduck:
 
 ```javascript
 db.pokemon.find(
     { name: "Psyduck" }, 
-    { name: true, height: true, weight: true }
 ).pretty()
 ```
 
@@ -1124,7 +1032,8 @@ db.pokemon.find(
     "_id" : ObjectId("5a8744754c24cb5c863ed339"),
     "name" : "Psyduck",
     "height" : "0.79 m",
-    "weight" : "19.6 kg"
+    "weight" : "19.6 kg",
+    ...
 }
 ```
 
@@ -1232,80 +1141,6 @@ db.pokemon.find(
 
 ---
 
-### 9.3 Operadores de Actualización Más Comunes
-
-Veamos ejemplos de otros operadores útiles:
-
-#### **$unset** - Eliminar un campo
-
-```javascript
-db.pokemon.updateOne(
-    { name: "Psyduck" },
-    { $unset: { multipliers: "" } }
-)
-```
-
-**Salida esperada:**
-```javascript
-{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
-```
-
-**Resultado:** El campo `multipliers` se elimina del documento de Psyduck.
-
----
-
-#### **$push** - Agregar elemento a un array
-
-```javascript
-db.pokemon.updateOne(
-    { name: "Pikachu" },
-    { $push: { weaknesses: "Ice" } }
-)
-```
-
-**Salida esperada:**
-```javascript
-{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
-```
-
-Verificamos:
-
-```javascript
-db.pokemon.find({ name: "Pikachu" }, { name: true, weaknesses: true }).pretty()
-```
-
-**Salida esperada:**
-```javascript
-{
-    "_id" : ObjectId("..."),
-    "name" : "Pikachu",
-    "weaknesses" : [
-        "Ground",  // Original
-        "Ice"      // ← NUEVO elemento agregado
-    ]
-}
-```
-
----
-
-#### **$pull** - Eliminar elemento de un array
-
-```javascript
-db.pokemon.updateOne(
-    { name: "Pikachu" },
-    { $pull: { weaknesses: "Ice" } }
-)
-```
-
-**Salida esperada:**
-```javascript
-{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
-```
-
-**Resultado:** "Ice" se elimina del array `weaknesses` de Pikachu.
-
----
-
 **📖 Operadores de actualización disponibles:**
 
 | Operador | Descripción | Ejemplo |
@@ -1321,126 +1156,11 @@ db.pokemon.updateOne(
 
 📖 **Referencia completa:** [Update Operators](https://docs.mongodb.com/manual/reference/operator/update/)
 
----
 
-## 🗑️ Parte 10: Eliminación de Documentos
 
-### 10.1 Eliminar un Solo Documento
+## 🚀 Parte 9: Índices y Rendimiento
 
-⚠️ **Advertencia:** La eliminación es **permanente** y no se puede deshacer.
-
-Primero, verificamos que Mewtwo existe:
-
-```javascript
-db.pokemon.find({ name: "Mewtwo" }, { name: true }).pretty()
-```
-
-**Salida esperada:**
-```javascript
-{
-    "_id" : ObjectId("5a8744754c24cb5c863ed399"),
-    "name" : "Mewtwo"
-}
-```
-
-Ahora lo eliminamos:
-
-```javascript
-db.pokemon.deleteOne({ name: "Mewtwo" })
-```
-
-**Salida esperada:**
-```javascript
-{ 
-    "acknowledged" : true, 
-    "deletedCount" : 1 
-}
-```
-
-Verificamos que fue eliminado:
-
-```javascript
-db.pokemon.find({ name: "Mewtwo" }).count()
-```
-
-**Salida esperada:**
-```
-0
-```
-
-**📖 Explicación:**
-- `deleteOne()` elimina el **primer documento** que coincida con el filtro
-- `deletedCount: 1` confirma que se eliminó 1 documento
-- Una vez eliminado, no hay forma de recuperarlo (a menos que tengas backups)
-
----
-
-### 10.2 Eliminar Múltiples Documentos
-
-⚠️ **Peligro:** `deleteMany()` puede eliminar muchos documentos a la vez.
-
-Contemos cuántos Pokemon legendarios tenemos:
-
-```javascript
-db.pokemon.countDocuments({ spawn_chance: 0 })
-```
-
-**Salida esperada:**
-```
-5
-```
-(Mewtwo ya lo eliminamos, quedan 5 legendarios)
-
-Ahora los eliminamos todos:
-
-```javascript
-db.pokemon.deleteMany({ spawn_chance: 0 })
-```
-
-**Salida esperada:**
-```javascript
-{ 
-    "acknowledged" : true, 
-    "deletedCount" : 5 
-}
-```
-
-Verificamos:
-
-```javascript
-db.pokemon.countDocuments({ spawn_chance: 0 })
-```
-
-**Salida esperada:**
-```
-0
-```
-
-**📖 Explicación:**
-- `deleteMany()` elimina **TODOS** los documentos que coincidan con el filtro
-- Eliminamos los 5 legendarios restantes (Ditto, Articuno, Zapdos, Moltres, Mew)
-
----
-
-### 10.3 ⚠️ Peligro: Eliminar Toda la Colección
-
-**❌ NO EJECUTES ESTO A MENOS QUE QUIERAS PERDER TODOS LOS DATOS:**
-
-```javascript
-// ⚠️ ESTO ELIMINA TODOS LOS DOCUMENTOS
-db.pokemon.deleteMany({})
-```
-
-**📖 Explicación:**
-- `deleteMany({})` con filtro vacío elimina **TODOS** los documentos de la colección
-- Es equivalente a `DELETE FROM pokemon` en SQL
-- **Mejor alternativa:** `db.pokemon.drop()` elimina la colección completa y es más eficiente
-
----
-
-## 🚀 Parte 11: Índices y Rendimiento
-
-### 11.1 Consultas Sin Índice (Scan Completo)
+### 9.1 Consultas Sin Índice (Scan Completo)
 
 Primero, analicemos cómo MongoDB ejecuta una consulta sin índice:
 
@@ -1502,7 +1222,7 @@ db.pokemon.createIndex({ name: 1 })
 - MongoDB ya tiene un índice automático en `_id`
 
 **🔗 Concepto de Clase 3:**
-Los índices en MongoDB usan **B-Trees** (que vimos en el slide 14 de la clase). Un B-Tree permite búsquedas en O(log n) en lugar de O(n).
+Los índices en MongoDB usan **B-Trees** (que vimos en clase). Un B-Tree permite búsquedas en O(log n) en lugar de O(n).
 
 ---
 
@@ -1560,41 +1280,7 @@ db.pokemon.find({ name: "Mew" }).explain("executionStats")
 
 ---
 
-### 11.4 Ver Todos los Índices
-
-Listamos los índices de la colección:
-
-```javascript
-db.pokemon.getIndexes()
-```
-
-**Salida esperada:**
-```javascript
-[
-    {
-        "v" : 2,
-        "key" : {
-            "_id" : 1
-        },
-        "name" : "_id_"
-    },
-    {
-        "v" : 2,
-        "key" : {
-            "name" : 1
-        },
-        "name" : "name_1"
-    }
-]
-```
-
-**📖 Explicación:**
-- Primer índice: `_id` (automático, creado por MongoDB)
-- Segundo índice: `name` (el que creamos)
-
----
-
-### 11.5 Índices Compuestos
+### 9.4 Índices Compuestos
 
 Podemos crear índices en **múltiples campos**:
 
@@ -1637,7 +1323,7 @@ db.pokemon.find({ type: "Water" }).sort({ spawn_chance: -1 }).explain("execution
 - **Espacio en disco:** Los índices ocupan almacenamiento adicional
 - **Memoria:** Los índices se cargan en RAM para ser rápidos
 
-**🔗 Concepto de Clase 3:**
+**🔗 Concepto de Clase:**
 Esto es un **trade-off clásico** en sistemas de bases de datos:
 - **Read-heavy workloads** → Crear muchos índices (optimizar lecturas)
 - **Write-heavy workloads** → Minimizar índices (optimizar escrituras)
@@ -1647,11 +1333,11 @@ Esto es un **trade-off clásico** en sistemas de bases de datos:
 
 ---
 
-## 🔄 Parte 12: Aggregation Framework
+## 🔄 Parte 10: Aggregation Framework
 
 El **Aggregation Framework** permite realizar operaciones complejas de transformación, agrupación y análisis de datos.
 
-### 12.1 Seleccionar un Documento Aleatorio
+### 10.1 Seleccionar un Documento Aleatorio
 
 ```javascript
 db.pokemon.aggregate([
@@ -1677,7 +1363,7 @@ db.pokemon.aggregate([
 
 ---
 
-### 12.2 Agrupar y Contar por Tipo
+### 10.2 Agrupar y Contar por Tipo
 
 Contemos cuántos Pokemon hay de cada tipo:
 
@@ -1733,7 +1419,7 @@ db.pokemon.aggregate([
 
 ---
 
-### 12.3 Calcular Promedios por Tipo
+### 10.3 Calcular Promedios por Tipo
 
 Calculemos el **peso promedio** de Pokemon por tipo:
 
@@ -1783,94 +1469,11 @@ db.pokemon.aggregate([
 
 4. **`$limit: 10`** - Muestra solo los top 10
 
-**Resultado:** Los Pokemon tipo Steel son los más pesados (promedio 400 kg), seguidos por Rock (102.45 kg) y Ground (88.5 kg).
+**Resultado:** Los Pokemon tipo Ice son los más pesados, seguidos por Rock y Ground.
 
 ---
 
-### 12.4 Pipeline Complejo: Análisis de Rareza por Tipo
-
-Encontremos los tipos más raros basándonos en spawn_chance promedio:
-
-```javascript
-db.pokemon.aggregate([
-    { $unwind: "$type" },
-    { $group: { 
-        _id: "$type",
-        avgSpawnChance: { $avg: "$spawn_chance" },
-        minSpawnChance: { $min: "$spawn_chance" },
-        maxSpawnChance: { $max: "$spawn_chance" },
-        count: { $sum: 1 }
-    }},
-    { $match: { count: { $gte: 5 } } },
-    { $sort: { avgSpawnChance: 1 } },
-    { $project: {
-        _id: 1,
-        avgSpawnChance: { $round: ["$avgSpawnChance", 4] },
-        minSpawnChance: 1,
-        maxSpawnChance: 1,
-        count: 1
-    }},
-    { $limit: 5 }
-])
-```
-
-**Salida esperada:**
-```javascript
-{
-    "_id" : "Dragon",
-    "avgSpawnChance" : 0.0667,
-    "minSpawnChance" : 0,
-    "maxSpawnChance" : 0.3,
-    "count" : 3
-}
-{
-    "_id" : "Ice",
-    "avgSpawnChance" : 0.092,
-    "minSpawnChance" : 0,
-    "maxSpawnChance" : 0.23,
-    "count" : 5
-}
-{
-    "_id" : "Steel",
-    "avgSpawnChance" : 0.12,
-    "minSpawnChance" : 0.06,
-    "maxSpawnChance" : 0.18,
-    "count" : 2
-}
-{
-    "_id" : "Ghost",
-    "avgSpawnChance" : 0.1433,
-    "minSpawnChance" : 0.07,
-    "maxSpawnChance" : 0.22,
-    "count" : 3
-}
-{
-    "_id" : "Fairy",
-    "avgSpawnChance" : 0.166,
-    "minSpawnChance" : 0.03,
-    "maxSpawnChance" : 0.42,
-    "count" : 5
-}
-```
-
-**📖 Explicación del Pipeline:**
-
-1. **`$unwind`** - Descompone tipos
-2. **`$group`** - Agrupa por tipo y calcula estadísticas:
-   - Promedio de spawn_chance
-   - Mínimo spawn_chance
-   - Máximo spawn_chance
-   - Conteo de Pokemon
-3. **`$match`** - Filtra tipos con al menos 5 Pokemon
-4. **`$sort`** - Ordena por rareza (spawn_chance más bajo)
-5. **`$project`** - Formatea la salida, redondea avgSpawnChance a 4 decimales
-6. **`$limit`** - Muestra solo los top 5 más raros
-
-**Resultado:** Dragon es el tipo más raro (6.67% spawn promedio), seguido de Ice (9.2%) y Steel (12%).
-
----
-
-### 12.5 Operadores de Aggregation Más Comunes
+### 10.4 Operadores de Aggregation Más Comunes
 
 | Operador | Descripción | Ejemplo |
 |----------|-------------|---------|
@@ -1885,7 +1488,7 @@ db.pokemon.aggregate([
 | **`$sample`** | Selecciona documentos aleatorios | `{ $sample: { size: 5 } }` |
 | **`$count`** | Cuenta documentos | `{ $count: "total" }` |
 
-**🔗 Concepto de Clase 3:**
+**🔗 Concepto de Clase:**
 El Aggregation Framework es similar a **MapReduce** que vimos en clase:
 - **Map** → `$unwind`, `$project` (transforman datos)
 - **Reduce** → `$group` (agrega/combina datos)
@@ -1895,289 +1498,10 @@ El Aggregation Framework es similar a **MapReduce** que vimos en clase:
 
 ---
 
-## 🔌 Parte 13: Drivers y Conexión desde Aplicaciones (No desarrollar para el workshop, solo leer)
+## 🎓 Parte 11: Resumen y Reflexión
 
-### 13.1 ¿Qué es un Driver?
 
-Un **driver** es una librería que permite a tu aplicación comunicarse con el servidor MongoDB. Cada lenguaje de programación tiene su propio driver oficial.
-
-### 13.2 Drivers Oficiales Disponibles
-
-| Lenguaje | Driver Oficial | Instalación |
-|----------|---------------|-------------|
-| **Python** | PyMongo | `pip install pymongo` |
-| **JavaScript/Node.js** | MongoDB Node.js Driver | `npm install mongodb` |
-| **Java** | MongoDB Java Driver | Maven/Gradle |
-| **C#** | MongoDB C# Driver | NuGet |
-| **Go** | MongoDB Go Driver | `go get go.mongodb.org/mongo-driver` |
-| **PHP** | MongoDB PHP Library | `composer require mongodb/mongodb` |
-| **Ruby** | Mongoid / MongoDB Ruby Driver | `gem install mongo` |
-| **Rust** | MongoDB Rust Driver | Cargo |
-
-🔗 **Encuentra tu driver:** [MongoDB Drivers](https://docs.mongodb.com/ecosystem/drivers/)
-
----
-
-### 13.3 Ejemplo con Node.js 
-
-Instalación:
-
-```bash
-npm install mongodb
-```
-
-Código de ejemplo:
-
-```javascript
-const { MongoClient } = require('mongodb');
-
-async function main() {
-    // 1. Crear cliente y conectar
-    const uri = "mongodb://localhost:27017";
-    const client = new MongoClient(uri);
-
-    try {
-        await client.connect();
-        console.log("✅ Conectado a MongoDB");
-
-        // 2. Seleccionar database y colección
-        const database = client.db('pokedex');
-        const pokemon = database.collection('pokemon');
-
-        // 3. FIND - Buscar un Pokemon
-        const charizard = await pokemon.findOne({ name: 'Charizard' });
-        console.log("Charizard:", charizard);
-
-        // 4. FIND con filtro - Pokemon tipo Fire
-        const firePokemon = await pokemon.find({ type: 'Fire' }).toArray();
-        console.log(`Encontrados ${firePokemon.length} Pokemon tipo Fire`);
-
-        // 5. INSERT - Insertar un nuevo Pokemon
-        const newPokemon = {
-            id: 152,
-            name: "Chikorita",
-            type: ["Grass"],
-            height: "0.91 m",
-            weight: "6.4 kg",
-            spawn_chance: 0.15
-        };
-        const insertResult = await pokemon.insertOne(newPokemon);
-        console.log("Insertado con ID:", insertResult.insertedId);
-
-        // 6. UPDATE - Actualizar un Pokemon
-        const updateResult = await pokemon.updateOne(
-            { name: 'Chikorita' },
-            { $set: { height: '1.00 m' } }
-        );
-        console.log("Documentos modificados:", updateResult.modifiedCount);
-
-        // 7. DELETE - Eliminar un Pokemon
-        const deleteResult = await pokemon.deleteOne({ name: 'Chikorita' });
-        console.log("Documentos eliminados:", deleteResult.deletedCount);
-
-        // 8. AGGREGATION - Contar por tipo
-        const typeStats = await pokemon.aggregate([
-            { $unwind: "$type" },
-            { $group: { _id: "$type", count: { $sum: 1 } } },
-            { $sort: { count: -1 } },
-            { $limit: 5 }
-        ]).toArray();
-        console.log("Top 5 tipos:", typeStats);
-
-    } finally {
-        // 9. Cerrar conexión
-        await client.close();
-        console.log("❌ Desconectado de MongoDB");
-    }
-}
-
-main().catch(console.error);
-```
-
-**Salida esperada:**
-```
-✅ Conectado a MongoDB
-Charizard: {
-  _id: ObjectId("..."),
-  id: 6,
-  name: 'Charizard',
-  type: ['Fire', 'Flying'],
-  height: '1.70 m',
-  weight: '90.5 kg',
-  ...
-}
-Encontrados 12 Pokemon tipo Fire
-Insertado con ID: ObjectId("...")
-Documentos modificados: 1
-Documentos eliminados: 1
-Top 5 tipos: [
-  { _id: 'Water', count: 32 },
-  { _id: 'Poison', count: 28 },
-  { _id: 'Normal', count: 22 },
-  { _id: 'Flying', count: 19 },
-  { _id: 'Psychic', count: 14 }
-]
-❌ Desconectado de MongoDB
-```
-
----
-
-### 13.4 Ejemplo con Python (PyMongo)
-
-Instalación:
-
-```bash
-pip install pymongo
-```
-
-Código de ejemplo:
-
-```python
-from pymongo import MongoClient
-from pprint import pprint
-
-# 1. Conectar a MongoDB
-client = MongoClient('mongodb://localhost:27017/')
-print("✅ Conectado a MongoDB")
-
-# 2. Seleccionar database y colección
-db = client['pokedex']
-pokemon_collection = db['pokemon']
-
-# 3. FIND - Buscar un Pokemon
-charizard = pokemon_collection.find_one({'name': 'Charizard'})
-print("\nCharizard:")
-pprint(charizard)
-
-# 4. FIND con filtro - Pokemon tipo Fire
-fire_pokemon = list(pokemon_collection.find({'type': 'Fire'}))
-print(f"\nEncontrados {len(fire_pokemon)} Pokemon tipo Fire")
-
-# 5. INSERT - Insertar un nuevo Pokemon
-new_pokemon = {
-    'id': 152,
-    'name': 'Chikorita',
-    'type': ['Grass'],
-    'height': '0.91 m',
-    'weight': '6.4 kg',
-    'spawn_chance': 0.15
-}
-insert_result = pokemon_collection.insert_one(new_pokemon)
-print(f"\nInsertado con ID: {insert_result.inserted_id}")
-
-# 6. UPDATE - Actualizar un Pokemon
-update_result = pokemon_collection.update_one(
-    {'name': 'Chikorita'},
-    {'$set': {'height': '1.00 m'}}
-)
-print(f"Documentos modificados: {update_result.modified_count}")
-
-# 7. DELETE - Eliminar un Pokemon
-delete_result = pokemon_collection.delete_one({'name': 'Chikorita'})
-print(f"Documentos eliminados: {delete_result.deleted_count}")
-
-# 8. AGGREGATION - Contar por tipo
-pipeline = [
-    {'$unwind': '$type'},
-    {'$group': {'_id': '$type', 'count': {'$sum': 1}}},
-    {'$sort': {'count': -1}},
-    {'$limit': 5}
-]
-type_stats = list(pokemon_collection.aggregate(pipeline))
-print("\nTop 5 tipos:")
-pprint(type_stats)
-
-# 9. Cerrar conexión
-client.close()
-print("\n❌ Desconectado de MongoDB")
-```
-
----
-
-### 13.5 Buenas Prácticas con Drivers
-
-✅ **Connection Pooling:**
-```javascript
-// ✅ BIEN: Reutilizar conexión
-const client = new MongoClient(uri, { maxPoolSize: 10 });
-await client.connect();
-// ... hacer múltiples operaciones ...
-await client.close();
-
-// ❌ MAL: Conectar/desconectar en cada operación
-for (let i = 0; i < 100; i++) {
-    const client = new MongoClient(uri);
-    await client.connect();
-    await client.db('test').collection('data').findOne({});
-    await client.close();  // Esto es muy ineficiente
-}
-```
-
-✅ **Manejo de Errores:**
-```javascript
-try {
-    await pokemon.insertOne(newPokemon);
-} catch (error) {
-    if (error.code === 11000) {
-        console.error("Error: Pokemon duplicado");
-    } else {
-        console.error("Error de MongoDB:", error);
-    }
-}
-```
-
-✅ **Variables de Entorno:**
-```javascript
-// ✅ BIEN: URI en variable de entorno
-const uri = process.env.MONGODB_URI;
-
-// ❌ MAL: URI hardcodeada en el código
-const uri = "mongodb://admin:password123@prod-server:27017/";
-```
-
-📖 **Ejemplos completos por lenguaje:** [MongoDB Driver Examples](https://github.com/mongolab/mongodb-driver-examples)
-
----
-
-## 🎓 Parte 14: Resumen y Reflexión
-
-### 14.1 Conceptos Cubiertos
-
-En este workshop aplicamos los siguientes conceptos de la **Clase 3**:
-
-✅ **Document Stores**
-- Estructura flexible de documentos JSON/BSON
-- Campos variables entre documentos (`next_evolution`, `prev_evolution`)
-- Arrays nativos (`type`, `weaknesses`)
-
-✅ **Embedding vs Referencing**
-- **Embedding**: Evoluciones guardadas dentro del documento (`next_evolution`)
-- **Trade-off**: Duplicación de datos vs rendimiento de lectura
-
-✅ **Operadores de Consulta**
-- Comparación: `$gt`, `$lt`, `$eq`, `$ne`
-- Arrays: `$size`, `$in`, `$all`
-- Lógicos: `$and`, `$or`, `$not`
-- Existencia: `$exists`
-
-✅ **Índices y Estructuras de Datos**
-- **B-Trees**: Estructura subyacente de los índices
-- **Trade-off**: O(n) → O(log n) pero con costo en escrituras
-- Índices simples y compuestos
-
-✅ **Aggregation Framework**
-- Pipeline de transformación (similar a MapReduce)
-- Operadores: `$match`, `$group`, `$sort`, `$unwind`, `$project`
-
-✅ **CRUD Operations**
-- Create: `insertOne()`, `insertMany()`
-- Read: `find()`, `findOne()`
-- Update: `updateOne()`, `updateMany()` con operadores `$set`, `$inc`, etc.
-- Delete: `deleteOne()`, `deleteMany()`
-
----
-
-### 14.2 Comparación: MongoDB vs Modelo Relacional
+### 11.1 Comparación: MongoDB vs Modelo Relacional
 
 | Aspecto | MongoDB (Document Store) | PostgreSQL (Relacional) |
 |---------|-------------------------|------------------------|
@@ -2196,7 +1520,7 @@ Esta tabla refleja los **trade-offs** entre modelos que discutimos:
 
 ---
 
-### 14.3 ¿Cuándo Usar MongoDB?
+### 11.2 ¿Cuándo Usar MongoDB?
 
 ✅ **Casos de uso ideales:**
 - **Catálogos de productos** (e-commerce): Productos con atributos variables
@@ -2211,74 +1535,3 @@ Esta tabla refleja los **trade-offs** entre modelos que discutimos:
 - **Relaciones muy complejas con muchos JOINs** (usar SQL)
 - **Reporting complejo con SQL** (usar data warehouses)
 - **Datos altamente estructurados y estables** (usar SQL)
-
----
-
-### 14.4 Conexión con las Próximas Clases
-
-Este workshop te preparó para:
-
-**Clase 4 - Replicación:**
-- Cómo MongoDB replica datos entre nodos
-- Configuración de replica sets
-- Failover y alta disponibilidad
-
-**Clase 5 - Particionamiento (Sharding):**
-- Cómo distribuir datos en múltiples servidores
-- Shard keys y estrategias de particionamiento
-- Trade-offs de rendimiento
-
-**Clases 6-7 - Procesamiento Batch/Stream:**
-- Usar Aggregation Pipeline para procesamiento batch
-- Integración con Apache Kafka para streaming
-- Change Streams para CDC (Change Data Capture)
-
----
-
-### 14.5 Recursos Adicionales
-
-📚 **Documentación Oficial:**
-- [MongoDB Manual](https://docs.mongodb.com/manual/)
-- [MongoDB University](https://university.mongodb.com/) - Cursos gratuitos
-- [Aggregation Pipeline Operators](https://docs.mongodb.com/manual/reference/operator/aggregation/)
-
-📖 **Libros Recomendados:**
-- "MongoDB: The Definitive Guide" - Shannon Bradshaw
-- "Designing Data-Intensive Applications" - Martin Kleppmann (Capítulo 2)
-
-🎥 **Videos y Tutoriales:**
-- [MongoDB YouTube Channel](https://www.youtube.com/c/MongoDBofficial)
-- [MongoDB Crash Course](https://www.youtube.com/watch?v=ofme2o29ngU)
-
-🔧 **Herramientas:**
-- [MongoDB Compass](https://www.mongodb.com/products/compass) - GUI oficial
-- [Studio 3T](https://studio3t.com/) - IDE avanzado
-- [NoSQLBooster](https://nosqlbooster.com/) - Shell con autocompletado
-
----
-
-## 🎉 ¡Felicitaciones!
-
-Has completado el workshop de MongoDB y aplicado los conceptos de **Document Stores** de la Clase 3.
-
-**Aprendiste:**
-- ✅ Conectar y explorar bases de datos MongoDB
-- ✅ Ejecutar queries con operadores complejos
-- ✅ Crear índices para optimizar rendimiento
-- ✅ Usar el Aggregation Framework para análisis de datos
-- ✅ Realizar operaciones CRUD completas
-- ✅ Conectar MongoDB desde aplicaciones con drivers
-
-**Próximos pasos:**
-1. Practica creando tu propia aplicación con MongoDB
-2. Experimenta con diferentes patrones de modelado (embedding vs referencing)
-3. Profundiza en el Aggregation Framework con datos reales
-4. Explora MongoDB Atlas (DBaaS en la nube)
-5. Prepárate para la Clase 4 sobre Replicación y Particionamiento
-
----
-
-**¿Preguntas?**  
-Consulta con tu profesor o revisa la documentación oficial de MongoDB.
-
-**Happy Coding! 🚀**
