@@ -26,7 +26,3 @@
 - Aprender a modelar colecciones  
 - Realizar queries, filtros y agregaciones  
 - Entender buenas prácticas esenciales  
-
----
-
-## 🗂 Estructura del contenido
